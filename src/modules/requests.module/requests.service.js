@@ -82,10 +82,27 @@ const getRequest = async (id, host) => {
 
     return request;
 }
+
+const fetchOutcomingRequests = async (host) => {
+  const config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `${host}/requests/outcoming/requests`,
+    headers: { 
+        'accept': 'application/json', 
+        'Content-Type': 'application/json'
+    },
+    };
+    const request = await sendRequest(config);
+
+    return request;
+}
+
 module.exports = {
   createRequest,
   fetchRequestByWorker,
   fetchIncomingRequests,
   updateRequest,
   getRequest,
+  fetchOutcomingRequests,
 };

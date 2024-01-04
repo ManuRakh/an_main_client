@@ -116,10 +116,25 @@ const getRequest = async (req, res) =>{
 }
 }
 
+const fetchOutcomingRequests = async (req, res) => {
+  try {
+    const host = getAcademyHost(req.academy_host);
+
+    const request = await requestsService.fetchOutcomingRequests(host);
+
+    res.jsonp({
+      error: "",
+      data: { result: request },
+    });
+  } catch (e) {
+    res.status(400).send({ error: e.message, data: {} });
+  }
+}
 module.exports = {
   createRequest,
   fetchRequestByWorker,
   fetchIncomingRequests,
   updateRequest,
   getRequest,
+  fetchOutcomingRequests,
 };
