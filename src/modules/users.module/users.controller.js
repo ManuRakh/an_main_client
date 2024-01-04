@@ -1,16 +1,22 @@
+const { getAcademyHost } = require("../utils/getAcademyHost");
 const usersService = require("./users.service");
 
 const getAllUsers = async (req,res) => {
     try {
-        const allUsers = await usersService.getAllUsers();
+      const host = getAcademyHost(req.academy_host);
+
+        const allUsers = await usersService.getAllUsers(host);
     
         res.jsonp({
           error: "",
-          data: { allUsers },
+          data: { result: allUsers },
         });
       } catch (e) {
-        res.status(400).send({ error: e.message, data: {} });
-      }
+        res.status(400).send({
+          error: e.response?.data?.error || e.message,
+          data: ""
+      });
+    }
 }
 
 module.exports = {

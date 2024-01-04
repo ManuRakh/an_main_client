@@ -34,7 +34,6 @@ const login = async (req, res) => {
         };
 
         const user = await sendRequest(config);
-        console.log({user})
         const token = jwt.sign({ id: user.id, role: user.role, academy }, 'secret', { expiresIn: '48h' });
         await storeToken(token, user.id, hours48);
 
