@@ -3,11 +3,11 @@ const { Op } = require("sequelize");
 const dotenv = require("dotenv");
 const { sendRequest } = require("../utils/sendRequest");
 dotenv.config();
-const getAllWorkers = async (host) => {
+const getAllWorkers = async (host, selectedAcademy) => {
   const config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${host}/workers`,
+    url: `${host}/workers?selectedAcademy=${selectedAcademy}`,
     headers: { 
         'accept': 'application/json', 
         'Content-Type': 'application/json'

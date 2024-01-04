@@ -4,14 +4,18 @@ const requestsService = require("./requests.service");
 const createRequest = async (req, res) => {
   try {
     const { body } = req;
+    const { query } = req;
+    if (!req.user_id) throw new Error("Internal server error");
+    
+    const { selected_academy: selectedAcademy } = query;
+    const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
 
-    const host = getAcademyHost(req.academy_host);
-
+    body.user_id = req.user_id;
     const request = await requestsService.createRequest(body, host);
 
     res.jsonp({
       error: "",
-      data: { request },
+      data: { result: request },
     });
   } catch (e) {
     res.status(400).send({
@@ -31,7 +35,7 @@ const fetchRequestByWorker = async (req, res) => {
 
     res.jsonp({
       error: "",
-      data: { request },
+      data: { result: request },
     });
   } catch (e) {
     res.status(400).send({

@@ -12,6 +12,8 @@ const isAuthenticated = async (req, res, next) => {
         }
 
         req.academy_host = decoded.academy;
+        req.user_id = decoded.id;
+        
         if (!req.academy_host) throw new Error("Invalid academy_host choosen");
 
         next();

@@ -20,6 +20,13 @@ app.get("/", (req, res) => res.send("Hello World!"));
 app.use("/auth/login", login);
 app.use(isAuthenticated);
 
+app.get("/supporting_academies", (req, res) => {
+  res.jsonp({
+    error: "",
+    data: { result: ["math", "physics"] },
+  });
+
+})
 app.use("/auth/logout", logout);
 app.use("/auth/register_user", registerUser);
 
