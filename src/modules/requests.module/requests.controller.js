@@ -118,7 +118,9 @@ const getRequest = async (req, res) =>{
 
 const fetchOutcomingRequests = async (req, res) => {
   try {
-    const host = getAcademyHost(req.academy_host);
+    const { selected_academy: selectedAcademy } = req.query;
+    console.log({selectedAcademy})
+    const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
 
     const request = await requestsService.fetchOutcomingRequests(host);
 
