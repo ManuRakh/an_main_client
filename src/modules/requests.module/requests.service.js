@@ -9,6 +9,8 @@ const createRequest = async (params) => {
   params.action = "create";
   params.object_type = objectType;
 
+  if (!params.worker_id || params.worker_id === "") throw new Error("worker_id must be specified");
+  
   await sendMessage(mainQueue, params);
 };
 
