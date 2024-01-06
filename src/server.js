@@ -12,6 +12,7 @@ const { login, logout, registerUser } = require("./modules/auth.module/login.con
 const cors = require('cors');
 const { sendMessage } = require("./modules/rabbit/send");
 const { receiveMessage } = require("./modules/rabbit/receive");
+const { mainQueue } = require("./modules/utils/queues");
 
 app.use(express.json({ limit: "200kb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -38,12 +39,5 @@ app.use("/users", users);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
-  sendMessage("math", {
-    message:"create request",
-  })
-  receiveMessage('math', (message) => {
-    // Обработка полученного сообщения
-    console.log("Processed message:", message);
-  });
 });
 

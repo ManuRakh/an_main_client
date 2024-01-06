@@ -39,7 +39,9 @@ const fetchRequestByWorker = async (req, res) => {
   try {
     const { params } = req;
     const { worker_id: workerId } = params;
-    const host = getAcademyHost(req.academy_host);
+    const { query } = req;
+    const { selected_academy: selectedAcademy } = query;
+    const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
 
     const request = await requestsService.fetchRequestByWorker(workerId, host);
 
@@ -57,7 +59,9 @@ const fetchRequestByWorker = async (req, res) => {
 
 const fetchIncomingRequests = async (req, res) => {
   try {
-    const host = getAcademyHost(req.academy_host);
+    const { query } = req;
+    const { selected_academy: selectedAcademy } = query;
+    const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
 
     const request = await requestsService.fetchIncomingRequests(host);
 

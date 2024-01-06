@@ -3,8 +3,10 @@ const usersService = require("./users.service");
 
 const getAllUsers = async (req,res) => {
     try {
-      const host = getAcademyHost(req.academy_host);
-
+      const { query } = req;
+      const { selected_academy: selectedAcademy } = query;
+      const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
+  
         const allUsers = await usersService.getAllUsers(host);
     
         res.jsonp({

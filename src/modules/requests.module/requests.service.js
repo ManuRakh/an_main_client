@@ -1,25 +1,15 @@
+const { sendMessage } = require("../rabbit/send");
+const { mainQueue } = require("../utils/queues");
 const { sendRequest } = require("../utils/sendRequest");
 
-const createRequest = async (params, host) => {
-  const data = JSON.stringify({
-    ...params,
-    status: "scheduled",
-});
+const objectType = "request";
 
-const config = {
-  method: 'post',
-  maxBodyLength: Infinity,
-  url: `${host}/requests`,
-  headers: { 
-      'accept': 'application/json', 
-      'Content-Type': 'application/json'
-  },
-  data : data
-  };
-  const request = await sendRequest(config);
+const createRequest = async (params) => {
+  params.status = "scheduled";
+  params.action = "create";
+  params.object_type = objectType;
 
-  console.log({request})
-  return request;
+  await sendMessage(mainQueue, params);
 };
 
 const fetchRequestByWorker = async (workerId, host) => {
@@ -52,18 +42,12 @@ const fetchIncomingRequests = async (host) => {
     return request;
 }
 
-const updateRequest =async (params, id, host) => {
-  const config = {
-    method: 'patch',
-    maxBodyLength: Infinity,
-    url: `${host}/requests/${id}`,
-    headers: { 
-        'accept': 'application/json', 
-        'Content-Type': 'application/json'
-    },
-    data: JSON.stringify(params),
-    };
-    const request = await sendRequest(config);
+const updateRequest =async (params, id) => {
+    params.id = id;
+    params.action = "update";
+    params.object_type = objectType;
+
+    const request = await sendMessage(mainQueue, params);
 
     return request;
 }

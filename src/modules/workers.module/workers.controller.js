@@ -25,7 +25,9 @@ const getWorkerById = async (req,res) => {
   try {
     const { params } = req;
     const { worker_id: workerId } = params;
-    const host = getAcademyHost(req.academy_host);
+    const { query } = req;
+    const { selected_academy: selectedAcademy } = query;
+    const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
 
     const foundWorker = await workersService.getWorkerById(workerId, host);
 
@@ -43,7 +45,9 @@ const getWorkerById = async (req,res) => {
 
 const createWorker = async (req, res) => {
   try {
-    const host = getAcademyHost(req.academy_host);
+    const { query } = req;
+    const { selected_academy: selectedAcademy } = query;
+    const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
 
     const { body } = req;
     const foundWorker = await workersService.createWorker(body, host);
@@ -63,7 +67,9 @@ const createWorker = async (req, res) => {
 const deleteWorker = async (req, res) => {
   try {
     const { params } = req;
-    const host = getAcademyHost(req.academy_host);
+    const { query } = req;
+    const { selected_academy: selectedAcademy } = query;
+    const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
 
     const { worker_id: workerId } = params;
 
