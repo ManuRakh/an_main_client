@@ -1,6 +1,7 @@
 const { sendMessage } = require("../rabbit/send");
 const { mainQueue } = require("../utils/queues");
 const { sendRequest } = require("../utils/sendRequest");
+const { v4: uuidv4 } = require('uuid');
 
 const objectType = "request";
 
@@ -8,7 +9,8 @@ const createRequest = async (params) => {
   params.status = "scheduled";
   params.action = "create";
   params.object_type = objectType;
-
+  params.identifier = uuidv4();
+  
   if (!params.worker_id || params.worker_id === "") throw new Error("worker_id must be specified");
   
   await sendMessage(mainQueue, params);
