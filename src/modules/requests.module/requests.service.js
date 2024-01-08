@@ -31,11 +31,11 @@ const fetchRequestByWorker = async (workerId, host) => {
     return request;
 }
 
-const fetchIncomingRequests = async (host) => {
+const fetchIncomingRequests = async (host, userId, isAdmin = false) => {
   const config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${host}/requests/incoming/requests`,
+    url: `${host}/requests/incoming/requests?user_id=${userId}&isAdmin=${isAdmin}`,
     headers: { 
         'accept': 'application/json', 
         'Content-Type': 'application/json'
@@ -56,11 +56,11 @@ const updateRequest =async (params, id) => {
     return request;
 }
 
-const getRequest = async (id, host) => {
+const getRequest = async (id, userId, isAdmin = false, host) => {
   const config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${host}/requests/${id}`,
+    url: `${host}/requests/${id}?user_id=${userId}&isAdmin=${isAdmin}`,
     headers: { 
         'accept': 'application/json', 
         'Content-Type': 'application/json'
@@ -71,11 +71,11 @@ const getRequest = async (id, host) => {
     return request;
 }
 
-const fetchOutcomingRequests = async (host) => {
+const fetchOutcomingRequests = async (host, userId, isAdmin = false) => {
   const config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${host}/requests/outcoming/requests`,
+    url: `${host}/requests/outcoming/requests?user_id=${userId}&isAdmin=${isAdmin}`,
     headers: { 
         'accept': 'application/json', 
         'Content-Type': 'application/json'

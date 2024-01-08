@@ -4,10 +4,11 @@ const workersService = require("./workers.service");
 const getAllWorkers = async (req,res) => {
     try {
       const { query } = req;
-      const { selected_academy: selectedAcademy } = query;
+      const { selected_academy: selectedAcademy, all } = query;
       const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
-      
-        const allWorkers = await workersService.getAllWorkers(host);
+      const userId = req.user_id;
+
+        const allWorkers = await workersService.getAllWorkers(host, userId, all);
     
         res.jsonp({
           error: "",

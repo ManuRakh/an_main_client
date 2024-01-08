@@ -18,7 +18,9 @@ const updateComment = async (req, res) => {
     try {
         const { params, body } = req;
         const { id } = params;
-        const request = await commentsService.updateComment(body, id);
+        const currentUserId = req.user_id;
+
+        const request = await commentsService.updateComment(body, id, currentUserId);
 
         res.jsonp({
           error: "",
@@ -48,8 +50,9 @@ const deleteComment = async (req, res) => {
     try {
         const { params } = req;
         const { id } = params;
+        const currentUserId = req.user_id;
 
-        const request = await commentsService.deleteComment(id);
+        const request = await commentsService.deleteComment(id, currentUserId);
 
         res.jsonp({
           error: "",

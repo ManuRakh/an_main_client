@@ -62,8 +62,10 @@ const fetchIncomingRequests = async (req, res) => {
     const { query } = req;
     const { selected_academy: selectedAcademy } = query;
     const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
+    const userId = req.user_id;
+    const isAdmin = req.admin;
 
-    const request = await requestsService.fetchIncomingRequests(host);
+    const request = await requestsService.fetchIncomingRequests(host, userId, isAdmin);
 
     res.jsonp({
       error: "",
@@ -105,8 +107,9 @@ const getRequest = async (req, res) =>{
     const { id } = params;
     const { selected_academy: selectedAcademy } = req.query;
     const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
-
-    const request = await requestsService.getRequest(id, host);
+    const userId = req.user_id;
+    const isAdmin = req.admin;
+    const request = await requestsService.getRequest(id, userId, isAdmin, host);
 
     res.jsonp({
       error: "",
@@ -125,8 +128,10 @@ const fetchOutcomingRequests = async (req, res) => {
     const { selected_academy: selectedAcademy } = req.query;
     console.log({selectedAcademy})
     const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
+    const userId = req.user_id;
+    const isAdmin = req.admin;
 
-    const request = await requestsService.fetchOutcomingRequests(host);
+    const request = await requestsService.fetchOutcomingRequests(host, userId, isAdmin);
 
     res.jsonp({
       error: "",

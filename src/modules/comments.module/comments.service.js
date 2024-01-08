@@ -16,11 +16,14 @@ const createComment = async (params) => {
   return request;
 }
 
-const updateComment = async (params, id) => {
+const updateComment = async (params, id, userId) => {
   params.id = id;
   params.action = "update";
   params.object_type = objectType;
-console.log({id})
+  const currentComment = await getComment(id);
+
+  if (currentComment.user_id !== userId) throw new Error(`Comment does not belongs to the current user`);
+
   const request = await sendMessage(mainQueue, params);
 
   return request;
@@ -41,8 +44,12 @@ const getComment = async (id) => {
     return request;
 }
 
-const deleteComment = async (id) => {
-    return await updateComment({ deletedAt: new Date()}, id);
+const deleteComment = async (id, userId) => {
+  const currentComment = await getComment(id);
+
+  if (currentComment.user_id !== userId) throw new Error(`Comment does not belongs to the current user`);
+
+    return await updateComment({ deletedAt: new Date()}, id, userId);
 }
 
 const getCommentsByRequest = async (id) => {
