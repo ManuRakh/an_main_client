@@ -69,6 +69,9 @@ const deleteWorker = async (req, res) => {
   try {
     const { params } = req;
     const { query } = req;
+    const isAdmin = req.admin;
+    if (!isAdmin) throw new Error("Только админ может удалять работников. Если вам нужно удалить работника, пожалуйста свяжитесь с администрацией");
+    
     const { selected_academy: selectedAcademy } = query;
     const host = getAcademyHost(selectedAcademy ? selectedAcademy : req.academy_host);
 
