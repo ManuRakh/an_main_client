@@ -11,6 +11,7 @@ const createRequest = async (params) => {
   params.object_type = objectType;
   params.identifier = uuidv4();
   
+  if (!params.receiver_user_id) throw new Error("Receiver user id is required");
   if (!params.worker_id || params.worker_id === "") throw new Error("worker_id must be specified");
   
   await sendMessage(mainQueue, params);
@@ -32,10 +33,12 @@ const fetchRequestByWorker = async (workerId, host) => {
 }
 
 const fetchIncomingRequests = async (host, userId, isAdmin = false) => {
+  const     url = `${host}/requests/incoming/requests?user_id=${userId}&isAdmin=${isAdmin}`
+  console.log(url);
   const config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${host}/requests/incoming/requests?user_id=${userId}&isAdmin=${isAdmin}`,
+    url,
     headers: { 
         'accept': 'application/json', 
         'Content-Type': 'application/json'

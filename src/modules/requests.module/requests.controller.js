@@ -72,6 +72,8 @@ const fetchIncomingRequests = async (req, res) => {
       data: { result: request },
     });
   } catch (e) {
+    console.log(e);
+
     res.status(400).send({
       error: e.response?.data?.error || e.message,
       data: ""
