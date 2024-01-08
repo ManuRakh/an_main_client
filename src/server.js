@@ -3,7 +3,7 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 
-const port = process.env.port || 3000;
+const port = process.env.port || 3002;
 const requests = require("./modules/requests.module/routes");
 const workers = require("./modules/workers.module/routes");
 const users = require("./modules/users.module/routes");
